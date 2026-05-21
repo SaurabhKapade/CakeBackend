@@ -1,9 +1,14 @@
 import express from "express";
-import { createCake, deleteCake, getCake, getCakes, updateCake } from "../Controller/cakeController.js";
-export const cakeRouter = express.Router()
+import { createCake, deleteCake, getCake, getCakes, searchCake, updateCake } from "../Controller/cakeController.js";
+import { uploader } from "../Middlewares/multerMiddleware.js";
+import { isAdmin } from "../Validation/authValidator.js";
 
-cakeRouter.post("/add", createCake);
+
+export const cakeRouter = express.Router();
+
+cakeRouter.post("/add",isAdmin, uploader.single("image"), createCake);
+cakeRouter.get("/search", searchCake);
 cakeRouter.get("/", getCakes);
 cakeRouter.get("/:id", getCake);
-cakeRouter.patch("/:id", updateCake);
-cakeRouter.delete("/:id", deleteCake);
+cakeRouter.patch("/update/:id",isAdmin,updateCake);
+cakeRouter.delete("/:id",isAdmin,deleteCake);

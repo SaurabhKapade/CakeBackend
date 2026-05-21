@@ -6,13 +6,14 @@ export const addCake = async (cakeData) => {
         const response = await Cake.create(cakeData)
         return response;
     } catch (error) {
+        console.log(error)
         if (error?.name === "ValidationError") {
             const errorMessageList = Object.keys(error.errors).map((property) => {
                 return error.errors[property].message;
             });
             throw {
                 statusCode: 400,
-                reason: "Validation failed",
+                reason: errorMessageList[0],
                 errors: errorMessageList,
             };
         }
@@ -96,6 +97,30 @@ export const deleteCakeById = async (cakeId) => {
         throw {
             statusCode: 500,
             reason: "Not able to delete cake",
+            error,
+        };
+    }
+};
+
+export const searchCake = async (query) => {
+    try {
+        const filter = {};
+
+        if (query?.name) {
+            filter.name = { $regex: query.name, $options: "i" };
+        }
+
+        if (query?.category) {
+            filter.category = { $regex: query.category, $options: "i" };
+        }
+
+        const response = await Cake.find(filter);
+        return response;
+
+    } catch (error) {
+        throw {
+            statusCode: 500,
+            reason: "Not able to search cakes",
             error,
         };
     }

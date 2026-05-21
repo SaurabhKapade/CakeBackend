@@ -1,120 +1,128 @@
-import { editCakeById, fetchAllCakes, fetchCakeById, insertCake, removeCakeById, searchCakeService } from "../Services/cakeService.js"
+import {
+    editBouquetById,
+    fetchAllBouquets,
+    fetchBouquetById,
+    insertBouquet,
+    removeBouquetById,
+    searchBouquetService,
+} from "../Services/bouquetService.js";
 
-export const createCake = async (req, res) => {
-    const product = ({...req.body,
-        imagePath : req.file.path
-    })
+export const createBouquet = async (req, res) => {
     try {
-        const response = await insertCake(product);
-        console.log(response)
+        const product = ({
+            ...req.body,
+            imagePath : req.file.path
+        })
+        const response = await insertBouquet(product);
         return res.status(201).json({
             success: true,
             statusCode: 201,
-            message: "Cake created successfully",
+            message: "Bouquet created successfully",
             data: response,
             error: {},
-        })
+        });
     } catch (error) {
         return res.status(error?.statusCode || 400).json({
             success: false,
             statusCode: error?.statusCode || 400,
-            message: error?.reason || "Not able to create cake",
+            message: error?.reason || "Not able to create bouquet",
             data: {},
             error: error,
-        })
+        });
     }
 };
 
-export const getCakes = async (req, res) => {
+export const getBouquets = async (req, res) => {
     try {
-        const response = await fetchAllCakes();
+        const response = await fetchAllBouquets();
         return res.status(200).json({
             success: true,
             statusCode: 200,
-            message: "Cakes fetched successfully",
+            message: "Bouquets fetched successfully",
             data: response,
             error: {},
-        })
+        });
     } catch (error) {
         return res.status(error?.statusCode || 400).json({
             success: false,
             statusCode: error?.statusCode || 400,
-            message: error?.reason || "Not able to fetch cakes",
+            message: error?.reason || "Not able to fetch bouquets",
             data: {},
             error: error,
-        })
+        });
     }
 };
 
-export const getCake = async (req, res) => {
+export const getBouquet = async (req, res) => {
     try {
-        const response = await fetchCakeById(req.params.id);
+        const response = await fetchBouquetById(req.params.id);
         return res.status(200).json({
             success: true,
             statusCode: 200,
-            message: "Cake fetched successfully",
+            message: "Bouquet fetched successfully",
             data: response,
             error: {},
-        })
+        });
     } catch (error) {
         return res.status(error?.statusCode || 400).json({
             success: false,
             statusCode: error?.statusCode || 400,
-            message: error?.reason || "Not able to fetch cake",
+            message: error?.reason || "Not able to fetch bouquet",
             data: {},
             error: error,
-        })
+        });
     }
 };
 
-export const updateCake = async (req, res) => {
+export const updateBouquet = async (req, res) => {
     try {
-        const response = await editCakeById(req.params.id, req.body);
+        const response = await editBouquetById(req.params.id, req.body);
         return res.status(200).json({
             success: true,
             statusCode: 200,
-            message: "Cake updated successfully",
+            message: "Bouquet updated successfully",
             data: response,
             error: {},
-        })
+        });
     } catch (error) {
         return res.status(error?.statusCode || 400).json({
             success: false,
             statusCode: error?.statusCode || 400,
-            message: error?.reason || "Not able to update cake",
+            message: error?.reason || "Not able to update bouquet",
             data: {},
             error: error,
-        })
+        });
     }
 };
 
-export const deleteCake = async (req, res) => {
+export const deleteBouquet = async (req, res) => {
     try {
-        const response = await removeCakeById(req.params.id);
+        const response = await removeBouquetById(req.params.id);
         return res.status(200).json({
             success: true,
             statusCode: 200,
-            message: "Cake deleted successfully",
+            message: "Bouquet deleted successfully",
             data: response,
             error: {},
-        })
+        });
     } catch (error) {
         return res.status(error?.statusCode || 400).json({
             success: false,
             statusCode: error?.statusCode || 400,
-            message: error?.reason || "Not able to delete cake",
+            message: error?.reason || "Not able to delete bouquet",
             data: {},
             error: error,
-        })
+        });
     }
 };
-export const searchCake = async (req, res) => {
+
+export const searchBouquet = async (req, res) => {
     try {
         const { name = "", category } = req.query;
-        const cakes = await searchCakeService({ name, category });
+        const bouquets = await searchBouquetService({ name, category });
         return res.json({
             success: true,
-            data: cakes,
+            data: bouquets,
         });
     } catch (error) {
         return res.status(500).json({

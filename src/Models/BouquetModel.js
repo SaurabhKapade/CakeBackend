@@ -1,19 +1,19 @@
 import mongoose from "mongoose";
 
-const cakeSchema = new mongoose.Schema({
+const bouquetSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
     },
     description: {
         type: String,
-        required:[true,'description should be provided'],
-        minlength:[10,'description should be minimum 10 character long'],
-        maxlength:[200,'description should be less than or equal 200 character']
+        required: [true, "description should be provided"],
+        minlength: [10, "description should be minimum 10 character long"],
+        maxlength: [200, "description should be less than or equal 200 character"],
     },
     price: {
         type: Number,
-        required: [true,'price should be provided'],
+        required: [true, "price should be provided"],
     },
     image: {
         type: String,
@@ -24,7 +24,7 @@ const cakeSchema = new mongoose.Schema({
     category: {
         type: String,
     },
-    ingredients: {
+    flowers: {
         type: [String],
     },
     createdAt: {
@@ -35,6 +35,6 @@ const cakeSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-})
+});
 
-export const Cake = mongoose.model("Cake", cakeSchema);
+export const Bouquet = mongoose.model("Bouquet", bouquetSchema);

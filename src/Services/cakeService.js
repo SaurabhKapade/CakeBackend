@@ -1,10 +1,19 @@
-import { addCake, deleteCakeById, getAllCakes, getCakeById, updateCakeById } from "../Repository/cakeRepositoy.js"
+import { deleteCloudinaryUploadedImage, uploadImageOnCloudinary } from "../Helper/CloudinaryHelper.js"
+import { addCake, deleteCakeById, getAllCakes, getCakeById, searchCake, updateCakeById } from "../Repository/cakeRepositoy.js"
 export const insertCake = async(cakeData)=>{
-    const cake = await addCake(cakeData)
-    if(!cake){
+    if(cakeData.imagePath){
+        const cloudinaryResponse = await uploadImageOnCloudinary(cakeData.imagePath)
+        const cake = ({
+            ...cakeData,
+            image : cloudinaryResponse.secure_url,
+            publicId : cloudinaryResponse.public_id
+        })
+        var response = await addCake(cake)
+    }
+    if(!response){
         throw{reason:"not able to add Cake in database"} 
     }
-    return cake;
+    return response;
 }
 
 export const fetchAllCakes = async () => {
@@ -23,6 +32,18 @@ export const editCakeById = async (cakeId, updateData) => {
 };
 
 export const removeCakeById = async (cakeId) => {
-    const cake = await deleteCakeById(cakeId);
-    return cake;
+    const cake = await getCakeById(cakeId);
+    const cloudinaryResponse = await deleteCloudinaryUploadedImage(cake.publicId);
+    const response = await deleteCakeById(cakeId);
+    return response;
+};
+
+export const searchCakeService = async (query) => {
+    const cakes = await searchCake(query);
+
+    if (!cakes) {
+        throw { reason: "No cakes found" };
+    }
+
+    return cakes;
 };
