@@ -5,6 +5,8 @@ import { connectDB } from "./src/Config/DB_Config.js";
 import { cakeRouter } from "./src/Routes/cakeRoutes.js";
 import { bouquetRouter } from "./src/Routes/bouquetRoutes.js";
 import { authRouter } from "./src/Routes/authRoutes.js";
+import orderRouter from "./src/Routes/orderRoutes.js";
+import userAuthRouter from "./src/Routes/userAuthRoutes.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -24,6 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/cake", cakeRouter);
 app.use("/bouquet", bouquetRouter);
 app.use("/auth",authRouter)
+app.use("/api/auth", userAuthRouter);
+app.use("/api/orders", orderRouter);
 
 app.get("/ping", (req, res) => {
     return res.json({
