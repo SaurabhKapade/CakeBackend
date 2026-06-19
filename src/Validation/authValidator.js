@@ -3,7 +3,6 @@ import { JWT_SECRET } from "../Config/ServerConfig.js";
 
 export const isAdmin = (req, res, next) => {
     const token = req.cookies['authToken'];
-
     if (!token) {
         return res.status(401).json({
             success: false,
