@@ -17,3 +17,4 @@ export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 export const JWT_SECRET = process.env.JWT_SECRET
 
 export const APP_PASS = process.env.APP_PASS
+export const APP_USER = process.env.APP_USER

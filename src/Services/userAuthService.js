@@ -27,7 +27,7 @@ export const registerUserService = async (userData) => {
             existingUser.password = await bcrypt.hash(password, 10);
             await existingUser.save();
 
-            await sendMail(email, "Your Sweet Slice Verification OTP", `Your OTP is ${otp}`);
+            await sendMail(email, "Your Sweet Slice Verification OTP", otp);
             return { message: "OTP sent to email. Please verify to complete registration." };
         }
     }
